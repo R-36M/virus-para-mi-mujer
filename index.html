@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerta del sistema</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #050505;
+      color: #00ff66;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 600px;
+      border: 2px solid #00ff66;
+      padding: 25px;
+      box-shadow: 0 0 25px #00ff6644;
+    }
+
+    h1 {
+      color: #ff3030;
+      text-align: center;
+      font-size: 32px;
+      animation: blink 0.8s infinite;
+    }
+
+    #progress {
+      margin-top: 25px;
+      height: 25px;
+      border: 1px solid #00ff66;
+    }
+
+    #bar {
+      width: 0%;
+      height: 100%;
+      background: #00ff66;
+      transition: width 0.2s;
+    }
+
+    #status {
+      margin-top: 20px;
+      min-height: 100px;
+    }
+
+    #final {
+      display: none;
+      text-align: center;
+      color: white;
+    }
+
+    #final h2 {
+      color: #ff4d4d;
+      font-size: 35px;
+    }
+
+    button {
+      background: #00ff66;
+      color: #000;
+      border: 0;
+      padding: 15px 25px;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.35; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box" id="screen">
+
+    <div id="virus">
+      <h1>⚠ VIRUS DETECTADO ⚠</h1>
+
+      <p>Iniciando análisis del dispositivo...</p>
+
+      <div id="progress">
+        <div id="bar"></div>
+      </div>
+
+      <p id="percent">0%</p>
+
+      <div id="status"></div>
+    </div>
+
+    <div id="final">
+      <h2>😂 ¡TE HE PILLADO!</h2>
+
+      <p>Tranquila ❤️</p>
+      <p>No hay ningún virus.</p>
+      <p>Era solamente una broma de tu marido 😘</p>
+
+      <button onclick="document.body.innerHTML='<h1 style=&quot;color:#00ff66;text-align:center;margin-top:40vh&quot;>❤️ TE QUIERO ❤️</h1>'">
+        Aceptar la broma
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    let progress = 0;
+
+    const messages = [
+      "Analizando archivos personales...",
+      "Comprobando fotografías...",
+      "Buscando archivos sospechosos...",
+      "Analizando mensajes...",
+      "Escaneando aplicaciones...",
+      "¡Amenaza encontrada!",
+      "Preparando informe..."
+    ];
+
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 8) + 3;
+
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+
+        setTimeout(() => {
+          document.getElementById("virus").style.display = "none";
+          document.getElementById("final").style.display = "block";
+        }, 1200);
+      }
+
+      document.getElementById("bar").style.width = progress + "%";
+      document.getElementById("percent").textContent = progress + "%";
+
+      const index = Math.min(
+        Math.floor(progress / 15),
+        messages.length - 1
+      );
+
+      document.getElementById("status").textContent =
+        "> " + messages[index];
+
+    }, 500);
+  </script>
+
+</body>
+</html>
